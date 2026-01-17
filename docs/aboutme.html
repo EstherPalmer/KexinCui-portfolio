@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -32,14 +32,15 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3b7f4aff7acac744aa1d596ce5db2ede.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-26827f95213357c060b998e0666f8ebe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -151,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Photo of Cassie</figcaption>
 </figure>
 </div>
-<p>Hi everyone! My name is Kexin Cui (you can call me Cassie). I’m a Ph.D.&nbsp;student in Epidemiology and Biostatistics with a Data Analysis and Modelling (DAM) concentration, working in the Bahl Lab, and I have a background in Data Analytics. I’m taking EPID 8060E because it is a core requirement for my concentration.</p>
+<p>Hi everyone! My name is Kexin Cui (you can call me Cassie). I’m a second year Ph.D.&nbsp;student in Epidemiology and Biostatistics with a Data Analysis and Modelling (DAM) concentration, working in the Bahl Lab, and I have a background in Data Analytics. I’m taking EPID 8060E because it is a core requirement for my concentration.</p>
 <section id="research-interests" class="level3">
 <h3 class="anchored" data-anchor-id="research-interests">Research Interests</h3>
 <p>My research interests focus on integrating machine learning models with statistical analysis to advance phylogenetic studies, with an emphasis on improving inference, interpretation, and visualization of evolutionary and transmission processes. I am particularly interested in infectious disease systems, where genomic data, ecological drivers, and surveillance data can be combined to better understand how pathogens spread across space and time.</p>
@@ -176,9 +177,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="something-cool-related-to-data-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="something-cool-related-to-data-analysis">Something Cool Related to Data Analysis</h3>
 <p>One data-driven tool that I find particularly interesting is Research Rabbit, a literature discovery platform built on citation network analysis and recommendation algorithms.</p>
-<p>🔗 https://www.researchrabbit.ai/</p>
+<p>🔗 <a href="https://www.researchrabbit.ai/">Research Rabbit</a></p>
 <p>One data resource I find particularly important for data analysis is the NCBI platform, which serves as a central hub for large-scale biological and genomic data.</p>
-<p>🔗 https://www.ncbi.nlm.nih.gov/</p>
+<p>🔗 <a href="https://www.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">NCBI</a></p>
 
 
 </section>
@@ -235,13 +236,14 @@ ul.task-list li input[type="checkbox"] {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

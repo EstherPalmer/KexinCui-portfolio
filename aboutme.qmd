@@ -5,7 +5,7 @@ title: "About me"
 ![Photo of Cassie](kc50138@uga.edu-8fdd2cd6.jpg){width=20% fig-align="center"}
 
 
-Hi everyone! My name is Kexin Cui (you can call me Cassie). I’m a Ph.D. student in Epidemiology and Biostatistics with a Data Analysis and Modelling (DAM) concentration, working in the Bahl Lab, and I have a background in Data Analytics. I’m taking EPID 8060E because it is a core requirement for my concentration.
+Hi everyone! My name is Kexin Cui (you can call me Cassie). I’m a second year Ph.D. student in Epidemiology and Biostatistics with a Data Analysis and Modelling (DAM) concentration, working in the Bahl Lab, and I have a background in Data Analytics. I’m taking EPID 8060E because it is a core requirement for my concentration.
 
 ### Research Interests
 My research interests focus on integrating machine learning models with statistical analysis to advance phylogenetic studies, with an emphasis on improving inference, interpretation, and visualization of evolutionary and transmission processes. I am particularly interested in infectious disease systems, where genomic data, ecological drivers, and surveillance data can be combined to better understand how pathogens spread across space and time.
@@ -34,8 +34,8 @@ I am also interested in improving my skills in reproducible data processing and 
 ### Something Cool Related to Data Analysis
 One data-driven tool that I find particularly interesting is Research Rabbit, a literature discovery platform built on citation network analysis and recommendation algorithms.
 
-🔗 https://www.researchrabbit.ai/
+🔗 <a href="https://www.researchrabbit.ai/" target="_blank" rel="noopener">Research Rabbit</a>
 
 One data resource I find particularly important for data analysis is the NCBI platform, which serves as a central hub for large-scale biological and genomic data.
 
-🔗 https://www.ncbi.nlm.nih.gov/
+🔗 <a href="https://www.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">NCBI</a>
