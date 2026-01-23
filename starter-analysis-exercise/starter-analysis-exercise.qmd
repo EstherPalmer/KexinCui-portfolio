@@ -192,7 +192,10 @@ I have chosen the dataset divorce_margarine, which looks at divorce rates and ma
 
 ```{r}
 library("dslabs")
-# loads library
+library("ggplot2")
+# loads libraries for this project
+# dslabs has data
+# ggplot2 is a thing for making plots
 str(divorce_margarine)
 summary(divorce_margarine)
 #gives an overview of the data
@@ -204,7 +207,16 @@ is.na(divorce_margarine)
 plot(divorce_margarine$year, divorce_margarine$margarine_consumption_per_capita)
 #plots the consumption of margarine in the us per capita over the years
 
-plot(divorce_margarine$year, divorce_margarine$divorce_rate_main)
+plot(divorce_margarine$year, divorce_margarine$divorce_rate_maine)
 #plots the divorce rate in main over the years
 ```
 After looking at these two plots separately, I see that they look very similar. Now I want to see if I can get them both into one plot.
+```{r}
+#these variables are long so I'm going to make them shorter
+y <- divorce_margarine$year
+d <- divorce_margarine$divorce_rate_maine
+m <- divorce_margarine$margarine_consumption_per_capita
+
+ggplot(divorce_margarine, aes(x = year)) + aes(y = divorce_rate_maine) + aes(y = margarine_consumption_per_capita) geom_point(
+  mapping = aes(x = year, y = divorce_rate_maine) colour = 'green', size = 3
+)
