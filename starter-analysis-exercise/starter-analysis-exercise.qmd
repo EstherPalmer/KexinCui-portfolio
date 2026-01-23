@@ -192,10 +192,9 @@ I have chosen the dataset divorce_margarine, which looks at divorce rates and ma
 
 ```{r}
 library("dslabs")
-library("ggplot2")
 # loads libraries for this project
 # dslabs has data
-# ggplot2 is a thing for making plots
+
 str(divorce_margarine)
 summary(divorce_margarine)
 #gives an overview of the data
@@ -210,6 +209,7 @@ plot(divorce_margarine$year, divorce_margarine$margarine_consumption_per_capita)
 plot(divorce_margarine$year, divorce_margarine$divorce_rate_maine)
 #plots the divorce rate in main over the years
 ```
+
 After looking at these two plots separately, I see that they look very similar. Now I want to see if I can get them both into one plot.
 ```{r}
 #these variables are long so I'm going to make them shorter
@@ -217,6 +217,12 @@ y <- divorce_margarine$year
 d <- divorce_margarine$divorce_rate_maine
 m <- divorce_margarine$margarine_consumption_per_capita
 
-ggplot(divorce_margarine, aes(x = year)) + aes(y = divorce_rate_maine) + aes(y = margarine_consumption_per_capita) geom_point(
-  mapping = aes(x = year, y = divorce_rate_maine) colour = 'green', size = 3
-)
+plot(y, m, col = "green", pch=19)
+points(y, d, col = "blue", pch=19)
+#plots both series on the same graph
+#margarine consumption is in green
+#divorce rate is in blue
+```
+
+When looking at the two separate plots I was worried that I would have to conclude that we should all eat less margarine for the sake of our marriages. While I am well aware correlation does not equal causation, after looking at the two separate plots graphed against each other I am no longer convinced that there is much of a correlation. The divorce rate per capita has actually remained fairly steady while the margarine consumption per capita has fallen.
+I also think it should be noted that as far as I can tell, it's the divorce rate in maine, and margarine consumption for the US as a whole, which is not a fair comparison.
