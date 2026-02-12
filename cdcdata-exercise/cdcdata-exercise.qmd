@@ -23,7 +23,7 @@ Source link:
 library(tidyverse)
 library(janitor)
 library(readr)
-library(skimr)
+
 
 cdc_data <- "Age-Related_Disparities_in_Cigarette_Smoking_Among_Adults_20260212.csv" 
 
