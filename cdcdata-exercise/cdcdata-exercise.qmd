@@ -1,0 +1,128 @@
+---
+title: "Data Processing Exercise on CDC dataset"
+---
+
+## Brief description of the dataset
+
+This analysis uses the CDC open data portal dataset “Age-Related Disparities in Cigarette Smoking Among Adults.” Each observation represents a comparison between a focus group and a reference group within a given state and year. For each comparison, the dataset reports:
+
+- Smoking prevalence (%) in the focus group  
+- Smoking prevalence (%) in the reference group  
+- A disparity value summarizing the difference between the two  
+
+The dataset includes both categorical variables (state, year, demographic type, group labels) and continuous variables (prevalence percentages and disparity).
+
+
+Source link:  
+<a href="https://data.cdc.gov/Survey-Data/Age-Related-Disparities-in-Cigarette-Smoking-Among/p6r5-duca/about_data" target="_blank" rel="noopener">Age-Related Disparities in Cigarette Smoking Among Adults</a>
+
+
+## Loading and checking data
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(readr)
+library(skimr)
+
+cdc_data <- "Age-Related_Disparities_in_Cigarette_Smoking_Among_Adults_20260212.csv" 
+
+cdc_raw <- read_csv(cdc_data, show_col_types = FALSE) %>%
+  clean_names()
+
+# get an overview of data structure
+str(cdc_raw)
+
+# get a summary of data
+summary(cdc_raw)
+
+# determine the type of object gapminder is
+class(cdc_raw)
+```
+
+
+## Data Cleaning and Processing
+
+In this section, we use functions from the tidyverse to process the data.
+```{r}
+cdc <- cdc_raw %>%
+  mutate(across(
+    c(cigarette_use_prevalence_percent_focus_group,
+      cigarette_use_prevalence_percent_reference_group,
+      disparity_value),
+    ~ na_if(.x, "No Data")%>%
+      na_if("N/A") %>%
+      na_if("Not Applicable") %>% 
+      na_if("")
+  )) %>%
+  transmute(
+    year = as.integer(year),
+    state = state,
+    tobacco_use = tobacco_use,
+    demographic = demographic,
+    focus_group = comparing_focus_group,
+    ref_group = to_reference_group,
+    prev_focus = parse_number(cigarette_use_prevalence_percent_focus_group),
+    prev_ref   = parse_number(cigarette_use_prevalence_percent_reference_group),
+    disparity  = parse_number(disparity_value)
+  ) %>%
+  filter(!is.na(prev_focus), !is.na(prev_ref), !is.na(disparity))
+
+glimpse(cdc)
+```
+
+
+### Descriptive summaries
+In the analysis below, I focus on a subset of variables that includes a mix of categorical variables (state, year, age group, demographic) and a continuous outcome (smoking prevalence, as a percentage)
+The following summary describes the overall distribution of smoking prevalence and disparity values (continuous variables)
+```{r}
+
+cdc %>%
+  summarise(
+    n = n(),
+    mean_prev_focus = mean(prev_focus), sd_prev_focus = sd(prev_focus),
+    mean_prev_ref   = mean(prev_ref),   sd_prev_ref   = sd(prev_ref),
+    mean_disparity  = mean(disparity),  sd_disparity  = sd(disparity),
+    min_prev_focus = min(prev_focus), max_prev_focus = max(prev_focus)
+  )
+
+
+```
+
+
+The following tables summarize category frequencies and proportions (categorical variables)
+```{r}
+cdc %>% count(demographic, sort = TRUE) %>% mutate(pct = n/sum(n)*100)
+cdc %>% count(focus_group, sort = TRUE) %>% mutate(pct = n/sum(n)*100)
+cdc %>% count(state, sort = TRUE) %>% slice_head(n = 10)
+
+```
+
+The dataset includes 7,710 observations, and all comparisons in the cleaned dataset are based on age-related disparities, as indicated by the demographic variable
+
+## Plotting
+
+```{r}
+ggplot(cdc, aes(prev_focus)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Focus-group smoking prevalence", x = "Prevalence (%)", y = "Count")
+
+ggplot(cdc, aes(disparity)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Disparity values", x = "Disparity", y = "Count")
+
+ggplot(cdc, aes(x = focus_group, y = prev_focus)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(title = "Focus-group prevalence by focus group", x = "Focus group", y = "Prevalence (%)")
+
+cdc %>%
+  group_by(year) %>%
+  summarise(mean_prev_focus = mean(prev_focus), mean_disparity = mean(disparity), .groups = "drop") %>%
+  ggplot(aes(year, mean_prev_focus)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Mean focus-group prevalence over time (pooled)", x = "Year", y = "Mean prevalence (%)")
+
+```
+
