@@ -126,3 +126,67 @@ cdc %>%
 
 ```
 
+## This section contributed by Esther Palmer
+
+I had to move the location of the file, as the code as written couldn't find it where it was. I didn't necessarily wish to change the code so I figured moving the file itself to where the code can find it on my end would be fine.
+
+This cell loads the libraries not in the previous section
+```{r}
+library(dplyr)
+library(skimr)
+
+```
+
+This cell creates my synthetic data
+```{r}
+n_dat <- c(500)
+
+synth_data <- data.frame(
+  year = numeric(n_dat),
+  state = character(n_dat),
+  tobacco_use = character(n_dat),
+  demographic = character(n_dat),
+  focus_group = character(n_dat),
+  cigarette_use_prevalence_percent_focus_group = character(n_dat),
+  reference_group = character(n_dat),
+  cigarette_use_prevalence_percent_reference_group = character(n_dat),
+ disparity_value = character(n_dat)
+)
+#this should ideally create an empty dataframe with 100 rows that I can then fill with synthetic data
+#I chose 500 because it is easy to do math on
+
+#now I will start filling in the variables
+synth_data$year <- sample(2011:2023, n_dat, replace = TRUE)
+#this should generate 100 integers between 2011 and 2023 and fill in the year variable
+synth_data$year <- sort(synth_data$year, decreasing = FALSE)
+#This puts the years in order like the original dataset
+
+state_prob <- c(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
+
+synth_data$state <- sample(c("Alaska", "Arizona", "California", "Colorado", "Georgia", "Hawaii", "Idaho", "Indiana", "Iowa", "Kansas"),
+ n_dat, 
+ replace =TRUE,
+ prob =  state_prob
+)
+#this should generate states for this data set, looking at the previous tables there were equal numbers of them so I attempted to set the probability at equal (0.1) using a vector, however this seems to not be perfect. I think not setting the probablility to anything would still have the same effect as what I did
+
+#I have realized that I have no reference for what the categories are for this one, so I will make a table (I edited the code from above for this variable)
+cdc %>% count(tobacco_use, sort = TRUE) %>% mutate(pct = n/sum(n)*100)
+#It seems like all columns are filled with "Cigarette use among Adults"
+synth_data$tobacco_use <- sample(c("Cigarette Use among Adults"), n_dat, replace = TRUE)
+#This vector is now filled with the correct singular response
+
+synth_data$demographic <- sample(c("Age"), n_dat, replace = TRUE)
+#this is another vector filled with a singular response
+
+focus_prob <- c(25.2, 25.2, 25.2, 24.4)
+#This vector contains the probability of each category of the focus group, taken from the table generated above
+synth_data$focus_group <- sample(c("Age 25-44", "Age 45-64", "Age 65 or older", "Age 18-24"), n_dat, replace = TRUE, prob = focus_prob)
+#This should regenerate the focus group column with these categories at these probablilities
+#I am having a hard time getting these probabilities to exactly match up, it would probably be easier with larger numbers
+#tried that, maybe not
+
+#these next ones are a bunch of continuous data points. Theres also a relationship between disparity and both prevalence of the focus group and the prevalence in the reference group. As in disparity = focus - ref, and so I can't just randomly generate disparity
+synth_data$cigarette_use_prevalence_percent_focus_group <- 
+
+```
