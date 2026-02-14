@@ -185,8 +185,21 @@ synth_data$focus_group <- sample(c("Age 25-44", "Age 45-64", "Age 65 or older", 
 #This should regenerate the focus group column with these categories at these probablilities
 #I am having a hard time getting these probabilities to exactly match up, it would probably be easier with larger numbers
 #tried that, maybe not
+#I also need to fill in the reference group data, however there isn't a table above, so I will borrow/edit the code for it
+cdc %>% count(ref_group, sort = TRUE) %>% mutate(pct = n/sum(n)*100)
+#this shows a similar prob for the reference group as compared to focus
+synth_data$reference_group <- sample(c("Age 25-44", "Age 45-64", "Age 65 or older", "Age 18-24"), n_dat, replace = TRUE, prob = focus_prob)
 
 #these next ones are a bunch of continuous data points. Theres also a relationship between disparity and both prevalence of the focus group and the prevalence in the reference group. As in disparity = focus - ref, and so I can't just randomly generate disparity
-synth_data$cigarette_use_prevalence_percent_focus_group <- 
+#based on the histogram above, I think prevalence was in a bimodal distribution rather than a normal one. So I will use the technique of randomly sampling from the actual numbers in the hopes that this synthetic dataset will match this distribution.
+synth_data$cigarette_use_prevalence_percent_focus_group <- sample(cdc$prev_focus, size = n_dat, replace = TRUE)
+
+#I will use the same technique for the reference group
+synth_data$cigarette_use_prevalence_percent_reference_group <- sample(cdc$prev_ref, size = n_dat, replace = TRUE)
+
+#now I have to figure out how to do math, I want disparity = [focus - ref] (absolute value bc I noticed no negative values)
+synth_data$disparity_value <- abs(synth_data$cigarette_use_prevalence_percent_focus_group - synth_data$cigarette_use_prevalence_percent_reference_group)
 
 ```
+
+I have created all the variables! Now time to graph and see how they compare against the original data
